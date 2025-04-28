@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szkolny Obóz Survivalowy - Wyspa Jacksona</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #5cb85c;
+            color: white;
+            padding: 1em;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        h1, h2, h3 {
+            color: #337ab7;
+        }
+        section {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        ul, ol {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .important {
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .day-plan li {
+            margin-bottom: 8px;
+        }
+        .food-menu ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .food-menu li {
+            margin-bottom: 5px;
+        }
+        .cost-info {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #008CBA;
+        }
+        .contact-info p {
+            margin-bottom: 5px;
+        }
+        .modal {
+            display: none; /* Ukryty domyślnie */
+            position: fixed; /* Pozostaje w miejscu */
+            z-index: 1; /* Nad innymi elementami */
+            left: 0;
+            top: 0;
+            width: 100%; /* Pełna szerokość */
+            height: 100%; /* Pełna wysokość */
+            overflow: auto; /* Włącz scrollowanie w razie potrzeby */
+            background-color: rgba(0,0,0,0.4); /* Czarne tło z przezroczystością */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* Wyśrodkowanie */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Większość szerokości ekranu */
+            border-radius: 5px;
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-content label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .modal-content input[type="number"],
+        .modal-content select,
+        .modal-content input[type="text"],
+        .modal-content input[type="email"],
+        .modal-content input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .modal-content button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .modal-content button:hover {
+            background-color: #005682;
+        }
+        .offer-choice {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .offer-choice button {
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .offer-choice button:hover {
+            background-color: #005682;
+        }
+        #personalDataModal {
+            display: none; /* Ukryty domyślnie */
+        }
+        #paymentOptions {
+            display: none; /* Ukryty domyślnie */
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+        }
+        #paymentOptions h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #337ab7;
+        }
+        #paymentOptions label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: normal;
+        }
+        #paymentOptions input[type="radio"] {
+            margin-right: 5px;
+        }
+        #cardDetailsModal {
+            display: none; /* Ukryty domyślnie */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Szkolny Obóz Survivalowy "Śladami Tomka Sawyera" - Wyspa Jacksona</h1>
+        <p>Przygoda czeka! Odkryj w sobie ducha pioniera.</p>
+    </header>
+
+    <section>
+        <h2>Nasza Oferta</h2>
+        <p>Zapraszamy na niezapomnianą przygodę na malowniczej Wyspie Jacksona! Wciel się w rolę Tomka Sawyera i Hucka Finna, ucząc się przetrwania w dzikiej przyrodzie, odkrywając tajemnice wyspy i budując niezapomniane wspomnienia.</p>
+        <ul>
+            <li>Noclegi w bezpiecznych, przygotowanych obozowiskach.</li>
+            <li>Wyżywienie dostosowane do aktywności i warunków terenowych.</li>
+            <li>Profesjonalna opieka doświadczonych instruktorów survivalu.</li>
+            <li>Bogaty program warsztatów i gier terenowych.</li>
+            <li>Możliwość zdobycia cennych umiejętności przetrwania.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Koszty Uczestnictwa</h2>
+        <p class="cost-info">Cena za uczestnika: <span style="color: #d9534f;">450 PLN</span></p>
+        <p>Cena zawiera: zakwaterowanie, wyżywienie, udział we wszystkich warsztatach i atrakcjach, opiekę instruktorów, ubezpieczenie.</p>
+        <p class="cost-info">Specjalna oferta dla grup (powyżej 10 osób): <span style="color: #d9534f;">400 PLN/osoba</span></p>
+    </section>
+
+    <section>
+        <h2>Plan Dnia Uczestnika</h2>
+        <ol class="day-plan">
+            <li><strong>Dzień 1: Przybycie i Budowa Obozu</strong>
+                <ul>
+                    <li>14:00 - Zbiórka i przeprawa na Wyspę Jacksona.</li>
+                    <li>15:00 - Powitanie, omówienie zasad bezpieczeństwa i podział na grupy.</li>
+                    <li>16:00 - Warsztaty z budowy schronień.</li>
+                    <li>18:00 - Przygotowanie ogniska i kolacji.</li>
+                    <li>20:00 - Gry integracyjne i opowieści przy ognisku.</li>
+                </ul>
+            </li>
+            <li><strong>Dzień 2: Eksploracja i Umiejętności Survivalowe</strong>
+                <ul>
+                    <li>8:00 - Śniadanie.</li>
+                    <li>9:00 - Warsztaty z orientacji w terenie (mapa, kompas, naturalne znaki).</li>
+                    <li>11:00 - Gra terenowa "Poszukiwanie Skarbu Tomka Sawyera".</li>
+                    <li>13:00 - Obiad w terenie (przygotowany wspólnie).</li>
+                    <li>14:30 - Warsztaty z pozyskiwania i uzdatniania wody.</li>
+                    <li>16:00 - Nauka rozpalania ognia bez użycia zapałek.</li>
+                    <li>18:00 - Przygotowanie kolacji.</li>
+                    <li>20:00 - Nocna wyprawa z elementami survivalu sensorycznego.</li>
+                </ul>
+            </li>
+            <li><strong>Dzień 3: Wyzwania i Pożegnanie</strong>
+                <ul>
+                    <li>8:00 - Śniadanie.</li>
+                    <li>9:00 - Wyzwanie zespołowe: budowa tratwy (elementy teoretyczne i praktyczne).</li>
+                    <li>11:00 - Mini-olimpiada survivalowa (różne konkurencje sprawdzające nabyte umiejętności).</li>
+                    <li>13:00 - Uroczyste zakończenie obozu i wręczenie pamiątkowych dyplomów.</li>
+                    <li>14:00 - Obiad i przygotowanie do odpłynięcia.</li>
+                    <li>15:00 - Odpłynięcie z Wyspy Jacksona.</li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>Regulamin Obozu</h2>
+        <p class="important">Bezpieczeństwo uczestników jest naszym priorytetem. Prosimy o bezwzględne przestrzeganie poniższych zasad:</p>
+        <ul>
+            <li>Należy słuchać poleceń instruktorów.</li>
+            <li>Obowiązuje zakaz oddalania się od grupy bez zgody opiekuna.</li>
+            <li>Dbamy o środowisko naturalne - nie śmiecimy i nie niszczymy roślinności.</li>
+            <li>Zabrania się wnoszenia i spożywania alkoholu oraz innych używek.</li>
+            <li>Wszelkie problemy i niebezpieczne sytuacje należy natychmiast zgłaszać instruktorom.</li>
+            <li>Uczestnicy zobowiązani są do posiadania odpowiedniego ubioru i wyposażenia (lista zostanie przesłana przed obozem).</li>
+            <li>W przypadku naruszenia regulaminu uczestnik może zostać odesłany z obozu na koszt własny rodziców/opiekunów.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Jadłopis</h2>
+        <p>Nasze posiłki są energetyczne i dostosowane do wysiłku fizycznego:</p>
+        <div class="food-menu">
+            <h3>Dzień 1</h3>
+            <ul>
+                <li><strong>Kolacja:</strong> Kiełbaski z ogniska, pieczywo, warzywa, herbata.</li>
+            </ul>
+            <h3>Dzień 2</h3>
+            <ul>
+                <li><strong>Śniadanie:</strong> Owsianka z owocami, pieczywo, dżem, herbata/kakao.</li>
+                <li><strong>Obiad:</strong> Zupa gulaszowa (przygotowywana na ognisku/kuchence turystycznej), pieczywo.</li>
+                <li><strong>Kolacja:</strong> Makaron z sosem pomidorowym i serem, sałatka, herbata.</li>
+            </ul>
+            <h3>Dzień 3</h3>
+            <ul>
+                <li><strong>Śniadanie:</strong> Jajecznica, pieczywo, wędlina, ser, warzywa, herbata/sok.</li>
+                <li><strong>Obiad:</strong> Kanapki z różnymi dodatkami, owoce, woda.</li>
+            </ul>
+            <p>Zastrzegamy sobie prawo do drobnych zmian w jadłospisie w zależności od dostępności produktów i warunków terenowych.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Atrakcje i Warsztaty</h2>
+        <ul>
+            <li><strong>Warsztaty z budowy schronień:</strong> Naucz się, jak zbudować bezpieczne i komfortowe schronienie z naturalnych materiałów.</li>
+            <li><strong>Orientacja w terenie:</strong> Opanuj sztukę posługiwania się mapą i kompasem oraz odczytywania znaków natury.</li>
+            <li><strong>Pozyskiwanie i uzdatnianie wody:</strong> Dowiedz się, jak znaleźć bezpieczne źródło wody i jak ją oczyścić.</li>
+            <li><strong>Rozpalanie ognia:</strong> Naucz się różnych technik rozpalania ognia bez użycia zapałek i krzesiwa.</li>
+            <li><strong>Pierwsza pomoc w terenie:</strong> Podstawowe zasady udzielania pierwszej pomocy w sytuacjach awaryjnych.</li>
+            <li><strong>Gry terenowe:</strong> Ekscytujące gry i zabawy integrujące grupę i sprawdzające nabyte umiejętności (np. "Poszukiwanie Skarbu Tomka Sawyera", "Zwiad").</li>
+            <li><strong>Nocna wyprawa:</strong> Fascynująca wyprawa po zmroku, ucząca orientacji i wyostrzająca zmysły.</li>
+            <li><strong>Budowa tratwy:</strong> Współpraca w grupie przy budowie prostej tratwy (elementy teoretyczne).</li>
+            <li><strong>Mini-olimpiada survivalowa:</strong> Zawody sprawdzające sprawność fizyczną i umiejętności survivalowe.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Kontakt</h2>
+        <div class="contact-info">
+            <p><strong>Adres:</strong> Ul. Przygodowa 1, 80-000 Gdańsk</p>
+            <p><strong>Telefon:</strong> +48 123 456 789</p>
+            <p><strong>Email:</strong> oboz.przetrwania@szkola.pl</p>
+            <p><strong>Osoba kontaktowa:</strong> Jan Kowalski</p>
+        </div>
+    </section>
+
+    <section class="offer-choice">
+        <h2>Zapisz się na obóz!</h2>
+        <button id="openModalBtn">Zgłoś się</button>
+    </section>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeBookingModal">&times;</span>
+            <h2>Wybierz liczbę uczestników i termin</h2>
+            <form id="bookingForm" action="#" method="post">
+                <label for="participants">Liczba uczestników:</label>
+                <input type="number" id="participants" name="participants" min="1" value="1" required>
+
+                <label for="availableDates">Wybierz termin:</label>
+                <select id="availableDates" name="availableDates" required>
+                    <option value="">-- Wybierz termin --</option>
+                    <option value="2025-07-01">01-07-2025 - 03-07-2025</option>
+                    <option value="2025-07-15">15-07-2025 - 17-07-2025</option>
+                    <option value="2025-08-05">05-08-2025 - 07-08-2025</option>
+                </select>
+
+                <button type="button" id="nextButton">Dalej</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="personalDataModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closePersonalDataModal">&times;</span>
+            <h2>Dane osobowe</h2>
+            <form id="personalDataForm">
+                <label for="payerName">Imię i nazwisko:</label>
+                <input type="text" id="payerName" name="payerName" pattern="[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż\s]+" title="Wprowadź poprawne imię i nazwisko (tylko litery i spacje)" required autocomplete="off">
+
+                <label for="payerEmail">Email:</label>
+                <input type="email" id="payerEmail" name="payerEmail" required autocomplete="off">
+
+                <label for="payerPhone">Telefon:</label>
+                <input type="tel" id="payerPhone" name="payerPhone" pattern="[0-9]{9}" title="Wprowadź 9-cyfrowy numer telefonu" required autocomplete="off">
+
+                <label for="payerAddress">Adres:</label><input type="text" id="payerAddress" name="payerAddress" pattern="[A-Za-z0-9ĄąĆćĘęŁłŃńÓóŚśŹźŻż\s\.,-]+" title="Wprowadź poprawny adres (litery, cyfry, spacje, .,-)" required autocomplete="off">
+
+                <label for="payerPostalCode">Kod pocztowy i miejscowość:</label>
+                <input type="text" id="payerPostalCode" name="payerPostalCode" pattern="[0-9]{2}-[0-9]{3}\s[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż]+" title="Wprowadź kod pocztowy w formacie XX-XXX i miejscowość" required autocomplete="off">
+
+                <label for="payerPesel">Numer PESEL:</label>
+                <input type="text" id="payerPesel" name="payerPesel" pattern="[0-9]{11}" title="Wprowadź poprawny 11-cyfrowy numer PESEL" required autocomplete="off">
+
+                <button type="button" id="goToPaymentButton">Przejdź do płatności</button>
+            </form>
+
+            <div id="paymentOptions">
+                <h2>Wybierz metodę płatności</h2>
+                <label>
+                    <input type="radio" name="paymentMethod" value="card"> Karta kredytowa
+                </label><br>
+                <label>
+                    <input type="radio" name="paymentMethod" value="transfer"> Przelew bankowy
+                </label><br>
+                <label>
+                    <input type="radio" name="paymentMethod" value="blik"> BLIK
+                </label><br><br>
+                <button type="button" id="submitPayment">Potwierdź płatność</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cardDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeCardDetailsModal">&times;</span>
+            <h2>Dane karty kredytowej</h2>
+            <form id="cardDetailsForm">
+                <label for="cardNumber">Numer karty:</label>
+                <input type="text" id="cardNumber" name="cardNumber" required pattern="[0-9]{16}" title="Wprowadź 16-cyfrowy numer karty" autocomplete="off">
+
+                <label for="expiryDate">Data ważności (MM/RR):</label>
+                <input type="text" id="expiryDate" name="expiryDate" required pattern="(0[1-9]|1[0-2])\/[0-9]{2}" title="Wprowadź datę w formacie MM/RR" autocomplete="off">
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required pattern="[0-9]{3}" title="Wprowadź 3-cyfrowy kod CVV" autocomplete="off">
+
+                <button type="button" id="processCardPayment">Zapłać teraz</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Szkolny Obóz Survivalowy "Śladami Tomka Sawyera" - Wyspa Jacksona</p>
+    </footer>
+
+    <script>
+        // Elementy pierwszego modalu (rezerwacji)
+        var bookingModal = document.getElementById("bookingModal");
+        var openBtn = document.getElementById("openModalBtn");
+        var closeBookingBtn = document.getElementById("closeBookingModal");
+        var nextButton = document.getElementById("nextButton");
+
+        // Elementy drugiego modalu (danych osobowych)
+        var personalDataModal = document.getElementById("personalDataModal");
+        var closePersonalDataBtn = document.getElementById("closePersonalDataModal");
+        var personalDataForm = document.getElementById("personalDataForm");
+        var goToPaymentButton = document.getElementById("goToPaymentButton");
+        var paymentOptionsDiv = document.getElementById("paymentOptions");
+        var submitPaymentButton = document.getElementById("submitPayment");
+        var paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+        var cardDetailsModal = document.getElementById("cardDetailsModal");
+        var closeCardDetailsBtn = document.getElementById("closeCardDetailsModal");
+        var processCardPaymentBtn = document.getElementById("processCardPayment");
+        var cardDetailsForm = document.getElementById("cardDetailsForm");
+
+        // Funkcje do otwierania i zamykania modali (bez zmian)
+        openBtn.addEventListener('click', function() {
+            bookingModal.style.display = "block";
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeBookingBtn.addEventListener('click', function() {
+            bookingModal.style.display = "none";
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == bookingModal) {
+                bookingModal.style.display = "none";
+                document.body.style.overflow = 'auto';
+            }
+            if (event.target == personalDataModal) {
+                personalDataModal.style.display = "none";
+                document.body.style.overflow = 'auto';
+            }
+            if (event.target == cardDetailsModal) {
+                closeCardDetailsModal();
+            }
+        });
+
+        nextButton.addEventListener('click', function() {
+            var participantsValue = document.getElementById('participants').value;
+            var selectedDateValue = document.getElementById('availableDates').value;
+
+            if (participantsValue >= 1 && selectedDateValue !== "") {
+                bookingModal.style.display = "none";
+                personalDataModal.style.display = "block";
+            } else {
+                alert("Proszę wybrać liczbę uczestników i termin.");
+            }
+        });
+
+        closePersonalDataBtn.addEventListener('click', function() {
+            personalDataModal.style.display = "none";
+            document.body.style.overflow = 'auto';
+        });
+
+        function openCardDetailsModal() {
+            cardDetailsModal.style.display = "block";
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCardDetailsModal() {
+            cardDetailsModal.style.display = "none";
+            document.body.style.overflow = 'auto';
+        }
+
+        closeCardDetailsBtn.addEventListener('click', closeCardDetailsModal);
+
+        // Walidacja formularza danych osobowych z komunikatami
+        goToPaymentButton.addEventListener('click', function() {
+            var isValid = true;
+            var errors = [];
+
+            var payerNameInput = document.getElementById('payerName');
+            if (!payerNameInput.checkValidity()) {
+                isValid = false;
+                errors.push("Imię i nazwisko: Wprowadź poprawne imię i nazwisko (tylko litery i spacje).");
+            }
+
+            var payerEmailInput = document.getElementById('payerEmail');
+            if (!payerEmailInput.checkValidity()) {
+                isValid = false;
+                errors.push("Email: Wprowadź poprawny adres email.");
+            }
+
+            var payerPhoneInput = document.getElementById('payerPhone');
+            if (!payerPhoneInput.checkValidity()) {
+                isValid = false;
+                errors.push("Telefon: Wprowadź 9-cyfrowy numer telefonu.");
+            }
+
+            var payerAddressInput = document.getElementById('payerAddress');
+            if (!payerAddressInput.checkValidity()) {
+                isValid = false;
+                errors.push("Adres: Wprowadź poprawny adres (litery, cyfry, spacje, .,-).");
+            }
+
+            var payerPostalCodeInput = document.getElementById('payerPostalCode');
+            if (!payerPostalCodeInput.checkValidity()) {
+                isValid = false;
+                errors.push("Kod pocztowy i miejscowość: Wprowadź kod pocztowy w formacie XX-XXX i miejscowość.");
+            }
+
+            var payerPeselInput = document.getElementById('payerPesel');
+            if (!payerPeselInput.checkValidity()) {
+                isValid = false;
+                errors.push("Numer PESEL: Wprowadź poprawny 11-cyfrowy numer PESEL.");
+            }
+
+            if (!isValid) {
+                alert("Proszę poprawić następujące pola:\n- " + errors.join("\n- "));
+            } else {
+                document.getElementById("personalDataForm").style.display = "none";
+                paymentOptionsDiv.style.display = "block";
+            }
+        });
+
+        // Walidacja formularza danych karty z komunikatami
+        processCardPaymentBtn.addEventListener('click', function() {
+            var isValid = true;
+            var errors = [];
+
+            var cardNumberInput = document.getElementById('cardNumber');
+            if (!cardNumberInput.checkValidity()) {
+                isValid = false;
+                errors.push("Numer karty: Wprowadź 16-cyfrowy numer karty.");
+            }
+
+            var expiryDateInput = document.getElementById('expiryDate');
+            if (!expiryDateInput.checkValidity()) {
+                isValid = false;
+                errors.push("Data ważności: Wprowadź datę w formacie MM/RR.");
+            }
+
+            var cvvInput = document.getElementById('cvv');
+            if (!cvvInput.checkValidity()) {
+                isValid = false;
+                errors.push("CVV: Wprowadź 3-cyfrowy kod CVV.");
+            }
+
+            if (!isValid) {
+                alert("Proszę poprawić następujące pola:\n- " + errors.join("\n- "));
+            } else {
+                alert('Przetwarzanie płatności kartą...\nNumer karty: ' + cardNumberInput.value + '\nData ważności: ' + expiryDateInput.value + '\nCVV: ' + cvvInput.value + '\nOpłata w wysokości ' + (document.getElementById('participants').value * 450) + ' PLN została pobrana.\nDziękujemy za zgłoszenie!\nPotwierdzenie wysłano na: ' + document.getElementById('payerEmail').value);
+                closeCardDetailsModal();
+                document.body.style.overflow = 'auto';
+                document.getElementById("bookingForm").reset();
+                document.getElementById("personalDataForm").reset();
+                document.getElementById("paymentOptions").style.display = "none";
+                document.getElementById("personalDataForm").style.display = "block";
+            }
+        });
+
+        // Obsługa wyboru metody płatności (bez zmian)
+        paymentMethods.forEach(function(method) {
+            method.addEventListener('change', function() {
+                submitPaymentButton.textContent = "Zapłać";
+            });
+        });
+
+        submitPaymentButton.addEventListener('click', function() {
+            var selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
+
+            if (selectedPayment) {
+                var participants = document.getElementById('participants').value;
+                var selectedDate = document.getElementById('availableDates').value;
+                var payerName = document.getElementById('payerName').value;
+                var payerEmail = document.getElementById('payerEmail').value;
+                var paymentMethod = selectedPayment.value;
+                var paymentMessage = "";
+
+                switch (paymentMethod) {
+                    case 'card':
+                        personalDataModal.style.display = "none";
+                        paymentOptionsDiv.style.display = "none";
+                        openCardDetailsModal();
+                        return;
+                    case 'transfer':
+                        paymentMessage = "Wygenerowano dane do przelewu...\nProsimy o dokonanie przelewu...\nPotwierdzenie zostanie wysłane...";
+                        break;
+                    case 'blik':
+                        paymentMessage = "Otwórz aplikację swojego banku i potwierdź transakcję BLIK...\nTransakcja oczekuje na Twoje potwierdzenie...";
+                        setTimeout(function() {
+                            alert("Potwierdzono płatność BLIK.");
+                            personalDataModal.style.display = "none";
+                            document.body.style.overflow = 'auto';
+                            document.getElementById("bookingForm").reset();
+                            document.getElementById("personalDataForm").reset();
+                            document.getElementById("paymentOptions").style.display = "none";
+                            document.getElementById("personalDataForm").style.display = "block";
+                        }, 3000);
+                        break;
+                    default:
+                        paymentMessage = "Nieznana metoda płatności.";
+                        break;
+                }
+
+                if (paymentMethod !== 'card' && paymentMethod !== 'blik') {
+                    alert('Dziękujemy za zgłoszenie!\nPotwierdzenie wysłano na: ' + payerEmail + '\nMetoda płatności: ' + paymentMethod + '\n' + paymentMessage);
+                    personalDataModal.style.display = "none";
+                    document.body.style.overflow = 'auto';
+                    document.getElementById("bookingForm").reset();
+                    document.getElementById("personalDataForm").reset();
+                    document.getElementById("paymentOptions").style.display = "none";
+                    document.getElementById("personalDataForm").style.display = "block";
+                }
+
+            } else {
+                alert("Proszę wybrać metodę płatności.");
+            }
+        });
+    </script>
+</body>
+</html>
